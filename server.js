@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
 const messageRoute = require("./routes/messageRoute");
-const errorHandler = require("./middlewares/errorMiddleware");
+const errorHandler = require("./middleWares/errorMiddleware");
 const cookieParser = require("cookie-parser");
 const app = express();
 
@@ -32,19 +32,7 @@ io.on("connection", (socket) => {
 server.listen(SOCKET_PORT, () => console.log(`SOCKET listening on port ${SOCKET_PORT}`));
 
 // Firebase initialization
-const serviceAccount = {
-    type: process.env.FIREBASE_TYPE,
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-    private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_CLIENT_ID,
-    auth_uri: process.env.FIREBASE_AUTH_URI,
-    token_uri: process.env.FIREBASE_TOKEN_URI,
-    auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-    client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
-    universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN,
-};
+const serviceAccount = require('./passion-pay-firebase-adminsdk-9856g-37329d3d45.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -82,3 +70,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = db; // Export db for use in routes
+module.exports = app;
