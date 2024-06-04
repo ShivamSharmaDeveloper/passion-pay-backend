@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const generateToken = (id, time) => {
-    return jwt.sign({ id }, 'shhhhh', { expiresIn: time });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: time });
 };
 
 // Register
@@ -141,7 +141,7 @@ const loginStatus = asyncHandler(async (req, res) => {
     if (!token) {
         return res.json(false);
     }
-    const verified = jwt.verify(token, 'shhhhh');
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
     if (verified) {
         return res.json(true);
     }
